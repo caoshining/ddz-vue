@@ -77,7 +77,7 @@ export default {
 	height: 100%;
 	width: 100%;
 	padding-left: 8px;
-	background: yellow;
+	background: rgb(247, 247, 247);
 }
 .players_cont .hearder_1,.players_cont .hearder_2{
 	padding: 4px 10px;

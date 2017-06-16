@@ -4,7 +4,7 @@ export const auth =http+ '/auth'
 //登出
 export const authDelete =http+ '/authDelete'
 //充值查询
-export const paylook=http+'/dealer/getCashRecordListByDate'
+export const paylooks=http+'/dealer/getCashRecordListByDate'
 //下属代理
 export const getSubDealer=http+'/dealer/getSubDealer'
 //下属玩家

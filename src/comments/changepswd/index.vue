@@ -30,7 +30,7 @@
 			<div class="grid-content bg-purple">新密码：</div>
 		  </el-col> 
 		  <el-col :span="12">
-		  	<el-input type="password"  placeholder="请输入新密码" v-model="newpswd" auto-complete="off"></el-input>
+		  	<el-input type="password"  placeholder="请输入新密码" v-model="newPwd" auto-complete="off"></el-input>
 		  </el-col>
 		</el-row>
 		
@@ -53,29 +53,53 @@
 </template>
 
 <script>
+let userdata={};
 export default {
   data () {
     return {
-      gameid: '111',
+      gameid:userdata.uid,
       oldpswd:'',
-      newpswd:'',
+      account:userdata.account,
+      newPwd:'',
       rightpswd:''
     }
   },
+  beforeCreate:function(){
+  	 userdata=JSON.parse(sessionStorage.getItem('userdata'))
+  },
   methods: {
   	submitAccount () {
-  		
-  		this.$http.get('/someUrl', {
-  			gameid:this.gameid,
-  			oldpswd:this.oldpswd,
-  			newpswd:this.newpswd,
-  			rightpswd:this.rightpswd
-  		}).then((res) => {
-  			res=res.body;
-  			if(res.error==0){
-
-  			}
-  		});
+  		const that=this;
+  		if(that.oldpswd==''){
+  			alert('旧密码不能为空')
+  			return false;
+  		}else if(that.newPwd==''){
+  			alert('新密码不能为空')
+  			return false;
+  		}else if(that.rightpswd==''){
+  			alert('确认新密码不能为空')
+  			return false;
+  		}else if(that.newPwd==that.rightpswd){
+  			this.axios.get(this.$api.changePwd, {
+			    params: {
+			      account:that.account,
+			      newPwd:that.newPwd,
+			      oldPwd:that.oldpswd
+			    }
+			})
+			.then(function (res) {
+			    if(res.data.code==1){
+		    		
+			    }else{
+			    	alert(res.data.msg)
+			    }
+			  })
+			.catch(function (response) {
+			    console.log(response);
+			});
+  		}else{
+  			alert('两次输入的密码不一致')
+  		}
   	}
   }
 }

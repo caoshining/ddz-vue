@@ -46,8 +46,6 @@ export default {
   	submitAccount () {
   		const that=this;
   		console.log(that)
-  		this.$router.push({path:"/center"})
-  		
   		// router.push('center')
   		// this.$http.get(this.$api.auth,{username:that.input,password:that.password}).then((res) => {
   		// 	res=res.body;
@@ -66,10 +64,10 @@ export default {
 		    }
 		  })
 		  .then(function (res) {
-  			that.$router.push({path:"/center"})
-		  	that.prototype.$userdata = {test:111}
+  		
 		    if(res.data.code==1){
-	    		this.$router.push({path:"/center",query:{
+	    		that.$router.push({path:"/center",params:{
+	  				uid:res.data.data.uid,
 	  				balance:res.data.data.balance,
 	  				role:res.data.data.role,
 	  				subDealer:res.data.data.subDealer,
@@ -77,7 +75,17 @@ export default {
     				subPlayer:res.data.data.subPlayer,
 	  				account:res.data.data.account
 	  			}})
-
+	  			const userdata={
+	  				uid:res.data.data.uid,
+	  				balance:res.data.data.balance,
+	  				role:res.data.data.role,
+	  				subDealer:res.data.data.subDealer,
+	  				dailyCashCount:res.data.data.dailyCashCount,
+    				subPlayer:res.data.data.subPlayer,
+    				password:that.password,
+	  				account:res.data.data.account
+	  			}
+	    		sessionStorage.setItem('userdata',JSON.stringify(userdata))
 		    }else{
 		    	alert(res.data.msg)
 		    }

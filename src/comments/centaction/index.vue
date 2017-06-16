@@ -3,19 +3,19 @@
 		<div class="hearder_1">
 			<h3>	
 				<span>【首页】</span> 
-				<span>欢迎你 {{userid}} </span>
+				<span>欢迎你 {{uid}} </span>
 			</h3>
 		</div>
 		<div class="hearder_2">
 			代理 我充值:
-			<span>{{paymoney}}</span>元
+			<span>{{balance}}</span>元
 		</div>
 		<div class="cent_action">
 			<ul>
 				<router-link to="/paylook" tag="li">充值查询</router-link>
-				<router-link to="/allwj" tag="li">总计直接玩家 {{zhijiewanjia}} 人</router-link>
-				<router-link to="/daili" tag="li">总计授权下级代理 {{xiajidaili}} 人</router-link>
-				<li>今日充值统计 {{jinrichongzhi}} 元</li>
+				<router-link to="/allwj" tag="li">总计直接玩家 {{subPlayer}} 人</router-link>
+				<router-link to="/daili" tag="li">总计授权下级代理 {{subDealer}} 人</router-link>
+				<li>今日充值统计 {{dailyCashCount}} 元</li>
 				<router-link to="/shouquan" tag="li">授权下</li>级代理</router-link>
 				<router-link to="/changepswd" tag="li">修改密码</router-link>
 				<router-link to="/allwj" tag="li">退出</router-link>
@@ -25,18 +25,21 @@
 </template>
 
 <script>
+let userdata={};
 export default {
   data () {
     return {
-      userid: '123',
-      paymoney:'111',
-      zhijiewanjia:'111',
-      xiajidaili:'2222',
-      jinrichongzhi:'111111'
+    	uid:userdata.uid,
+      	balance:userdata.balance,
+		role:userdata.role,
+		subDealer:userdata.subDealer,
+		dailyCashCount:userdata.dailyCashCount,
+		subPlayer:userdata.subPlayer,
+		account:userdata.account
     }
   },
-  created:function(){
-  	console.log(this.prototype.$userdata)
+  beforeCreate:function(){
+  	 userdata=JSON.parse(sessionStorage.getItem('userdata'))
   },
   methods: {
   	submitAccount () {		

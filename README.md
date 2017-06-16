@@ -1,7 +1,4 @@
 
-## Environment
-
-`Node >= 6`
 
 ## Start
 

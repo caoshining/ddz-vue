@@ -11,7 +11,7 @@ import shouquan from './comments/shouquan/index.vue'
 import changepswd from './comments/changepswd/index.vue'
 import VueRouter from 'vue-router'
 // import VueResourec from 'vue-resource';
-import {authDelete,auth} from './config/api.js'
+import {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd} from './config/api.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -19,7 +19,7 @@ Vue.use(ElementUI)
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios)
 
-Vue.prototype.$api = {authDelete,auth}
+Vue.prototype.$api = {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd}
 
 let Apps = Vue.extend(App);
 const router =new VueRouter({

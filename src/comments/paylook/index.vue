@@ -1,16 +1,16 @@
 <template>
 	<div class="paylook_cont">
 		<router-link to="/center" tag="div" class="hearder_1">
-			【首页】{{userid}}欢迎你
+			【首页】{{uid}}欢迎你
 		</router-link>
 		<div class="hearder_2">
 			代理 我充值:
-			<span>{{paymoney}}</span>元
+			<span>{{balance}}</span>元
 		</div>
 		<div class="cent_action">
 			<ul>
 				<li>
-					当前位置 {{userid}} [代理] 首页
+					当前位置 {{uid}} [代理] 首页
 				</li>
 				<li>
 					<div class="block">
@@ -18,9 +18,12 @@
 					    
 					    <el-date-picker
 					      v-model="date1"
+					      format="MM-dd-yyyy"
 					      type="date"
 					      placeholder="选择日期"
-					      :picker-options="pickerOptions0">
+					      change="date1"
+					      @change="dateChange"
+					      >
 					    </el-date-picker>
 					</div>
 					  
@@ -30,17 +33,19 @@
 					    <span class="demonstration">结束时间</span>
 					    <el-date-picker
 					      v-model="date2"
+					      format="MM-dd-yyyy"
 					      type="date"
 					      placeholder="选择日期"
-					      :picker-options="pickerOptions0">
+					      @change="dateChange"
+					      >
 					    </el-date-picker>
 					</div>
 					  
 				</li>
-				<li>{{userid}}总充值金额： {{paymoney}} 元</li>
+				<li>{{uid}}总充值金额： {{balance}} 元</li>
 				<li>直接发展的玩家充值
 				 	<span @click='lookDetail("zjsshow")'>展开</span>
-				 	{{xiajidaili}} 元
+				 	{{subPlayer}} 元
 				 </li>
 				<div class="details" v-if='zjsshow'>
 				 	<el-row :gutter="0" type='flex' class="heard_title"  justify='space-between' align='middle'>
@@ -62,7 +67,7 @@
 					</el-row>
 				</div>
 				<li>
-					下级代理玩家充值 {{jinrichongzhi}} 元
+					下级代理玩家充值 {{subDealer}} 元
 					<span @click='lookDetail("xjdlshwo")'>展开</span>
 				</li>
 				<div  class="details" v-if='xjdlshwo'>
@@ -115,19 +120,25 @@
 </template>
 
 <script>
+let userdata={};
+
 export default {
   data () {
     return {
-      userid: '123',
-      paymoney:'111',
-      zhijiewanjia:'111',
-      xiajidaili:'2222',
-      jinrichongzhi:'111111',
-      zjsshow:false,
-      xjdlshwo:false,
-      myshow:false,
-      date1:'',
-      date2:''
+		uid:userdata.uid,
+		balance:userdata.balance,
+		role:userdata.role,
+		subDealer:userdata.subDealer,
+		dailyCashCount:userdata.dailyCashCount,
+		subPlayer:userdata.subPlayer,
+		account:userdata.account,
+		zjsshow:false,
+		xjdlshwo:false,
+		myshow:false,
+		page:'0',
+		pageSize:'10',
+		date1:'',
+		date2:''
    //    pickerOptions0: {
           
    //    },
@@ -142,19 +153,64 @@ export default {
       // value6:'',
     }
   },
+   beforeCreate:function(){
+  	 userdata=JSON.parse(sessionStorage.getItem('userdata'))
+  },
   methods: {
-  	submitAccount () {		
-  		this.$http.post('/someUrl', {username:this.input,password:this.password}).then((res) => {
-  			res=res.body;
-  			if(res.error==0){
+  	dateChange (value){
+  		value=value.replace(/-/g,'/')
+  		console.log(this.date1)
+  		console.log(this.date2)
+  	},
+  	FormatDate (strTime) {
+	    var date = new Date(strTime);
+	    return (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
+	},
+  	CheckList (target) {
+  		// let url='';
+  		// switch(target){
+  		// 	case 'zjsshow':
+  		// 	url=
+  		// 	break;
+  		// 	case 'xjdlshwo':
+  		// 	url=
+  		// 	break;
+  		// 	case 'myshow':
+  		// 	url=
+  		// 	break;
+  		// }
 
-  			}
-  		});
+  		const that=this;	
+  		console.log(this.FormatDate(new Date(that.date1)))
+  		this.axios.get(this.$api.paylooks, {
+		    params: {
+			    account:that.account,
+				start:this.FormatDate(new Date(that.date1)),
+				end:this.FormatDate(new Date(that.date1)),
+				page:that.page,
+				pageSize:that.pageSize
+		    },
+		 	//paramsSerializer: function(params) {
+			//     return this.axios.stringify(params, {start:that.FormatDate(new Date(that.date1)),
+			// 	end:that.FormatDate(new Date(that.date1))})
+			// },
+		  })
+		  .then(function (res) {
+		    if(res.data.code==1){
+	  			
+		    }else{
+		    	alert(res.data.msg)
+		    }
+		  })
+		  .catch(function (response) {
+		    console.log(response);
+		  });
   	},
   	lookDetail (target) {
   		switch(target){
   			case 'zjsshow':
   			this.zjsshow=!this.zjsshow
+  			this.CheckList()
   			break;
   			case 'xjdlshwo':
   			this.xjdlshwo=!this.xjdlshwo
