@@ -1,12 +1,14 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <el-button @click.native="startHacking">Let's do it</el-button>
+  <div id="app">  
+    <transition name="el-fade-in-linear">
+        <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
+import login from './comments/login/login.vue'
+
 export default {
   data () {
     return {
@@ -22,12 +24,25 @@ export default {
         duration: 6000
       })
     }
+  },
+  components: {
+    login
   }
 }
 </script>
 
 <style>
-body {
+*{
+  margin: 0;
+  padding: 0;
+}
+html,body {
+  height: 100%;
+  width: 100%;
   font-family: Helvetica, sans-serif;
+}
+#app{
+  height: 100%;
+  width: 100%;
 }
 </style>
