@@ -28,7 +28,7 @@
 					<div class="grid-content bg-purple">ID号码</div>
 				  </el-col> 
 				  <el-col :span="12">
-				  	<el-input type="password"  placeholder="请输入ID" v-model="idinput" auto-complete="off"></el-input>
+				  	<el-input type="text"  placeholder="请输入ID" v-model="idinput" auto-complete="off"></el-input>
 				  </el-col>
 				</el-row>
 

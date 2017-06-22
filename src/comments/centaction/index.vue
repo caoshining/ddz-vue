@@ -12,13 +12,14 @@
 		</div>
 		<div class="cent_action">
 			<ul>
+				<router-link to="/playerPay" tag="li">充值</router-link>
 				<router-link to="/paylook" tag="li">充值查询</router-link>
 				<router-link to="/allwj" tag="li">总计直接玩家 {{subPlayer}} 人</router-link>
 				<router-link to="/daili" tag="li">总计授权下级代理 {{subDealer}} 人</router-link>
 				<li>今日充值统计 {{dailyCashCount}} 元</li>
 				<router-link to="/shouquan" tag="li">授权下</li>级代理</router-link>
 				<router-link to="/changepswd" tag="li">修改密码</router-link>
-				<router-link to="/allwj" tag="li">退出</router-link>
+				<li  @click="authDelete">退出</li>
 			</ul>
 		</div>
 	</div>
@@ -42,13 +43,42 @@ export default {
   	 userdata=JSON.parse(sessionStorage.getItem('userdata'))
   },
   methods: {
-  	submitAccount () {		
-  		this.$http.post('/someUrl', {username:this.input,password:this.password}).then((res) => {
-  			res=res.body;
-  			if(res.error==0){
-
-  			}
-  		});
+  	OutGo () {		
+  		var that=this;
+  		this.axios.get(this.$api.authDelete)
+		  .then(function (res) { 		
+		    if(res.data.code==1){
+		    	that.$message({
+		            type: 'success',
+		            message: '退出成功!'
+		        });
+	    		that.$router.push({path:"/login"})	
+	    		sessionStorage.clear()
+		    }else{
+		    	that.$message({
+		            type: 'info',
+		            message: res.data.msg
+		        });
+		    	// alert(res.data.msg)
+		    }
+		  })
+		  .catch(function (response) {
+		    console.log(response);
+		  });
+  	},
+  	authDelete(){
+  		this.$confirm('此操作退出登录?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+        	this.OutGo();        
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消退出操作'
+          });          
+        });
   	},
   	paylook () {
   		router.push({ path: 'paylook' })

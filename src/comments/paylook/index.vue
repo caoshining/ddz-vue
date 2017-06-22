@@ -65,13 +65,32 @@
 						  </div>
 					  </el-col>
 					</el-row>
+					<div>
+						<el-row :gutter="0" type='flex' class="heard_title" v-for="item in zjPaydata"  justify='space-between' align='middle'>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  <div class="grid-content bg-purple">
+							  	{{item.id}}
+							  </div>
+						  </el-col>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  	<div class="grid-content bg-purple-light">
+							  		{{item.cash}}
+							  	</div>
+						  </el-col>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  <div class="grid-content bg-purple">
+							  	详情
+							  </div>
+						  </el-col>
+						</el-row>
+					</div>
 				</div>
 				<li>
 					下级代理玩家充值 {{subDealer}} 元
 					<span @click='lookDetail("xjdlshwo")'>展开</span>
 				</li>
 				<div  class="details" v-if='xjdlshwo'>
-				 	<el-row :gutter="0" type='flex' class="heard_title"  justify='space-between' align='middle'>
+				 	<el-row :gutter="0" type='flex' class="heard_title" justify='space-between' align='middle'>
 					  <el-col :span="6"  justify='center' align='middle'>
 						  <div class="grid-content bg-purple">
 						  	ID
@@ -88,6 +107,25 @@
 						  </div>
 					  </el-col>
 					</el-row>
+					<div>
+						<el-row :gutter="0" type='flex' class="heard_title" v-for="item in xjPaydata"  justify='space-between' align='middle'>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  <div class="grid-content bg-purple">
+							  	{{item.id}}
+							  </div>
+						  </el-col>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  	<div class="grid-content bg-purple-light">
+							  		{{item.cash}}
+							  	</div>
+						  </el-col>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  <div class="grid-content bg-purple">
+							  	详情
+							  </div>
+						  </el-col>
+						</el-row>
+					</div>
 				</div>
 				<li>
 					此查询期间（其中我自己充值）
@@ -111,6 +149,25 @@
 						  </div>
 					  </el-col>
 					</el-row>
+					<div>
+						<el-row :gutter="0" type='flex' class="heard_title" v-for="item in selfPaydata"  justify='space-between' align='middle'>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  <div class="grid-content bg-purple">
+							  	{{item.id}}
+							  </div>
+						  </el-col>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  	<div class="grid-content bg-purple-light">
+							  		{{item.cash}}
+							  	</div>
+						  </el-col>
+						  <el-col :span="6"  justify='center' align='middle'>
+							  <div class="grid-content bg-purple">
+							  	详情
+							  </div>
+						  </el-col>
+						</el-row>
+					</div>
 				</div>
 				<router-link to="/changepswd" tag="li">修改密码</router-link>
 				<li>退出</li>
@@ -120,6 +177,7 @@
 </template>
 
 <script>
+import util from '../../common/util'
 let userdata={};
 
 export default {
@@ -137,20 +195,11 @@ export default {
 		myshow:false,
 		page:'0',
 		pageSize:'10',
+		zjPaydata:[],
+		xjPaydata:[],
+		selfPaydata:[],
 		date1:'',
 		date2:''
-   //    pickerOptions0: {
-          
-   //    },
-	  // pickerOptions1: {
-	  //   disabledDate(value1) {
-	  //       return value1 < Date.now() - 8.64e7;
-
-	  //     }
-	  // },
-      // value1: '',
-      // value2: ''
-      // value6:'',
     }
   },
    beforeCreate:function(){
@@ -164,6 +213,7 @@ export default {
   	},
   	FormatDate (strTime) {
 	    var date = new Date(strTime);
+	    // return util.formatDate.format(new Date(date), 'yyyy-MM-dd');
 	    return (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
 	},
   	CheckList (target) {
@@ -179,38 +229,53 @@ export default {
   		// 	url=
   		// 	break;
   		// }
-
-  		const that=this;	
-  		console.log(this.FormatDate(new Date(that.date1)))
-  		this.axios.get(this.$api.paylooks, {
-		    params: {
-			    account:that.account,
-				start:this.FormatDate(new Date(that.date1)),
-				end:this.FormatDate(new Date(that.date1)),
-				page:that.page,
-				pageSize:that.pageSize
-		    },
-		 	//paramsSerializer: function(params) {
-			//     return this.axios.stringify(params, {start:that.FormatDate(new Date(that.date1)),
-			// 	end:that.FormatDate(new Date(that.date1))})
-			// },
-		  })
-		  .then(function (res) {
-		    if(res.data.code==1){
-	  			
-		    }else{
-		    	alert(res.data.msg)
-		    }
-		  })
-		  .catch(function (response) {
-		    console.log(response);
-		  });
+  		if(this.date1==''){
+  			this.$message({
+	            type: 'info',
+	            message: '查询开始时间不能为空'
+	        });
+  		}else if(this.date2==''){
+  			this.$message({
+	            type: 'info',
+	            message: '查询结束时间不能为空'
+	        });
+  		}else if(this.date1>this.date2){
+  			this.$message({
+	            type: 'info',
+	            message: '查询开始时间不能大于结束时间'
+	        });
+  		}else{
+	  		const that=this;	
+	  		console.log(this.FormatDate(new Date(that.date1)))
+	  		this.axios.get(this.$api.paylooks, {
+			    params: {
+				    account:that.account,
+					start:this.FormatDate(new Date(that.date1)),
+					end:this.FormatDate(new Date(that.date2)),
+					page:that.page,
+					pageSize:that.pageSize
+			    },
+			  })
+			  .then(function (res) {
+			    if(res.data.code==1){
+			    	console.log(that.zjPaydata)
+			    	console.log(res.data.data)
+		  			that.zjPaydata=res.data.data
+		  			console.log(that.zjPaydata)
+			    }else{
+			    	alert(res.data.msg)
+			    }
+			  })
+			  .catch(function (response) {
+			    console.log(response);
+			  });
+  		}
   	},
   	lookDetail (target) {
   		switch(target){
   			case 'zjsshow':
   			this.zjsshow=!this.zjsshow
-  			this.CheckList()
+  			this.zjsshow?this.CheckList():''
   			break;
   			case 'xjdlshwo':
   			this.xjdlshwo=!this.xjdlshwo

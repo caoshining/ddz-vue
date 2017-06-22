@@ -1,5 +1,5 @@
-//登录
 let http='http://www.ccyier.com/phz-admin'
+//登录
 export const auth =http+ '/auth'
 //登出
 export const authDelete =http+ '/authDelete'
@@ -15,3 +15,5 @@ export const createDealer=http+'/createDealer'
 export const disableDealer=http+'/disableDealer'
 //修改密码
 export const changePwd=http+'/changePwd'
+//增添用户房卡
+export const addItem=http+'/player/addItem'

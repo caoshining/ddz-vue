@@ -54,14 +54,42 @@ export default {
       page:0
     }
   },
+  created:function(){
+  	 this.submitAccount()
+  },
   methods: {
   	submitAccount () {		
-  		this.$http.post('/someUrl', {username:this.page}).then((res) => {
-  			res=res.body;
-  			if(res.error==0){
-
-  			}
-  		});
+  		this.axios.get(this.$api.getSubPlayer)
+		  .then(function (res) {
+		    if(res.data.code==1){
+	    	// 	that.$router.push({path:"/center",params:{
+	  			// 	uid:res.data.data.uid,
+	  			// 	balance:res.data.data.balance,
+	  			// 	role:res.data.data.role,
+	  			// 	subDealer:res.data.data.subDealer,
+	  			// 	dailyCashCount:res.data.data.dailyCashCount,
+    		// 		subPlayer:res.data.data.subPlayer,
+	  			// 	account:res.data.data.account
+	  			// }})\
+	  			console.log(res)
+	  			// const userdata={
+	  			// 	uid:res.data.data.uid,
+	  			// 	balance:res.data.data.balance,
+	  			// 	role:res.data.data.role,
+	  			// 	subDealer:res.data.data.subDealer,
+	  			// 	dailyCashCount:res.data.data.dailyCashCount,
+    		// 		subPlayer:res.data.data.subPlayer,
+    		// 		password:that.password,
+	  			// 	account:res.data.data.account
+	  			// }
+	    	// 	sessionStorage.setItem('userdata',JSON.stringify(userdata))
+		    }else{
+		    	alert(res.data.msg)
+		    }
+		  })
+		  .catch(function (response) {
+		    console.log(response);
+		  });
   	},
   	handleCurrentChange(val) {
 	    console.log(`当前页: ${val}`);
