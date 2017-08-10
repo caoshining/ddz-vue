@@ -1,28 +1,31 @@
 <template>
-	<div class="center_action">
-		<div class="hearder_1">
+	<div class="center_cent">
+		<nav class="bar bar-nav">
 			<h3>	
 				<span>【首页】</span> 
 				<span>欢迎你 {{uid}} </span>
 			</h3>
+		</nav>
+		<div class="center_action">
+			
+			<div class="hearder_2">
+				代理 我充值:
+				<span>{{balance}}</span>元
+			</div>
+			<div class="cent_action">
+				<ul>
+					<router-link class="router_li" to="/playerPay" tag="li">充值 <i class="el-icon-arrow-right"></i></router-link>
+					<router-link to="/paylook" tag="li">充值查询  <i class="el-icon-arrow-right"></i></router-link>
+					<router-link to="/allwj" tag="li">总计直接玩家 {{subPlayer}} 人 <i class="el-icon-arrow-right"></i></router-link>
+					<router-link to="/daili" tag="li">总计授权下级代理 {{subDealer}} 人 <i class="el-icon-arrow-right"></i></router-link>
+					<li>今日充值统计 {{dailyCashCount}} 元 <i class="el-icon-arrow-right"></i></li>
+					<router-link to="/shouquan" tag="li">授权下级代理 <i class="el-icon-arrow-right"></i></router-link>
+					<router-link to="/changepswd" tag="li">修改密码 <i class="el-icon-arrow-right"></i></router-link>
+					<li  @click="authDelete">退出</li>
+				</ul>
+			</div>
 		</div>
-		<div class="hearder_2">
-			代理 我充值:
-			<span>{{balance}}</span>元
-		</div>
-		<div class="cent_action">
-			<ul>
-				<router-link to="/playerPay" tag="li">充值</router-link>
-				<router-link to="/paylook" tag="li">充值查询</router-link>
-				<router-link to="/allwj" tag="li">总计直接玩家 {{subPlayer}} 人</router-link>
-				<router-link to="/daili" tag="li">总计授权下级代理 {{subDealer}} 人</router-link>
-				<li>今日充值统计 {{dailyCashCount}} 元</li>
-				<router-link to="/shouquan" tag="li">授权下</li>级代理</router-link>
-				<router-link to="/changepswd" tag="li">修改密码</router-link>
-				<li  @click="authDelete">退出</li>
-			</ul>
-		</div>
-	</div>
+	</div>	
 </template>
 
 <script>
@@ -91,14 +94,38 @@ export default {
 .hearder_1,.hearder_2{
 	padding: 4px 10px;
 }
-.center_action{
+.center_cent .bar-nav{
+	top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    background-color: #f7f7f8;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    text-align: center;
+}
+.bar-nav h3{
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 3;
+	background-color: #f7f7f8;
+}
+.center_cent{
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
+	background: #efeff4;
+
+}
+.center_action{
 	padding-left: 8px;
-	background: rgb(247, 247, 247);
 }
 .cent_action ul li{
-	display: block;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	width: 90%;
 	background: #20A0FF;
     color: #fff;
@@ -108,8 +135,14 @@ export default {
 	box-sizing: border-box;
 	list-style-type: none;
 }
+.cent_action ul li i{
+	line-height:'';
+}
 .cent_action{
 	width: 100%;
 	padding: 10px;
+}
+.el-message-box{
+	width: 290px;
 }
 </style>

@@ -12,8 +12,10 @@
 			<span>{{paymoney}}</span>元
 		</div> -->
 		<div class="cent_action">
+			<nav class="bar bar-nav">
+				<h1 class="title">当前位置: {{userid}} [玩家充值]</h1>
+			</nav>	
 			<div>
-				当前位置: {{userid}} [玩家充值] 
 				首页	
 			</div>
 			<div>

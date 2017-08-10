@@ -1,4 +1,4 @@
-let http='http://www.ccyier.com/phz-admin'
+let http='http://120.77.144.115/phz-admin'
 //登录
 export const auth =http+ '/auth'
 //登出

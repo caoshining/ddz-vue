@@ -1,9 +1,13 @@
 <template>
 	<div class="loginContent">
+	
 		<div  class="main_content">
-			<el-row :gutter="2" type='flex' class="heard_title"  justify='center' align='middle'>
+			<nav class="bar bar-nav">
+				<h1 class="title">登录</h1>
+			</nav>
+			<el-row :gutter="2" type='flex' class="login_heard_title"  justify='center' align='middle'>
 				<el-col :span="8"  justify='center' align='middle'>
-					<div class="grid-content bg-purple">代理登录</div>
+					<div class="grid-content bg-purple"></div>
 				</el-col>
 			</el-row>
 
@@ -27,6 +31,9 @@
 
 			<el-row :gutter="2" type='flex' class='sub_btn' justify='center' align='middle'>
 				<el-col :span="8">
+					<el-button type="error"  @click="cancleBtn" >取消</el-button>
+				</el-col>
+				<el-col :span="8">
 					<el-button type="primary"  @click="submitAccount" >提交</el-button>
 				</el-col>
 			</el-row>
@@ -43,6 +50,10 @@ export default {
     }
   },
   methods: {
+  	cancleBtn(){
+  		this.input=''
+  		this.password=''
+  	},
   	submitAccount () {
   		const that=this;
   		console.log(that)
@@ -99,12 +110,30 @@ export default {
 </script>
 
 <style type="text/css">
-	
+	.bar-nav{
+		/*position: fixed;*/
+		top: 0;
+	    right: 0;
+	    left: 0;
+	    z-index: 10;
+	    padding-right: 0.5rem;
+	    padding-left: 0.5rem;
+	    background-color: #f7f7f8;
+	    -webkit-backface-visibility: hidden;
+	    backface-visibility: hidden;
+	    text-align: center;
+	}
+	.bar-nav h1{
+		font-weight: normal;
+		font-size: 18px;
+		line-height: 3;
+	}
 	.loginContent{
 		height: 100%;
 		width: 100%;
 		display: flex;
-	    align-items: center;
+	    background: #efeff4;	
+	    align-items: top;
 	}
 	.main_content{
 		width: 100%;
@@ -113,7 +142,7 @@ export default {
 		text-align: center;
 		margin-top: 20px;
 	}
-	.heard_title{
-		margin:15px auto;
+	.login_heard_title{
+		margin-top: 10%;
 	}
 </style>
