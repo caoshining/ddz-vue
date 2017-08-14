@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+import 'mint-ui/lib/style.css'
 import App from './App.vue'
 import login from './comments/login/login.vue'
 import center from './comments/centaction/index.vue'
@@ -10,11 +11,15 @@ import daili from './comments/alldaili/index.vue'
 import shouquan from './comments/shouquan/index.vue'
 import changepswd from './comments/changepswd/index.vue'
 import playerpay from './comments/playerPay/index.vue'
+import dealerMange from './comments/dealerMange/dealerMange.vue'
 import VueRouter from 'vue-router'
 // import VueResourec from 'vue-resource';
 import {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd,addItem} from './config/api.js'
+import { Swipe, SwipeItem, Indicator, Button, Cell, Checklist } from 'mint-ui';
+
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
 
 Vue.use(ElementUI)
 Vue.use(VueRouter);
@@ -35,7 +40,9 @@ const router =new VueRouter({
     	{path: '/shouquan', component: shouquan},
       {path: '/changepswd', component: changepswd},
     	{path: '/playerpay', component: playerpay},
-    	{path: '/paylook', component: paylook}
+      {path: '/paylook', component: paylook},
+    	{path: '/dealerMange', component: dealerMange}
+
 	]
 })
 

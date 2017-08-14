@@ -1,21 +1,33 @@
 <template>
 	<div class="paylook_cont">
-		<router-link to="/center" tag="div" class="hearder_1">
+		<!-- <router-link to="/center" tag="div" class="hearder_1">
 			【首页】{{uid}}欢迎你
-		</router-link>
-		<div class="hearder_2">
-			代理 我充值:
-			<span>{{balance}}</span>元
-		</div>
+		</router-link> -->
+		<mt-header title="【玩家充值查询】" class="bar-nav">
+			<router-link :to="{ path: '/center'}" replace slot="left" >
+			    <mt-button icon="back">返回</mt-button>
+			</router-link>
+		  <!-- <mt-button slot="right" size="normal" type="primary"  plain @click="MenuType"> 
+				菜单
+		  </mt-button> -->
+		</mt-header>
+		<!-- <div class="hearder_2">
+			<div>
+				代理 我充值:
+				<span>{{balance}}</span>元
+			</div>
+		</div> -->
 		<div class="cent_action">
 			<ul>
-				<li>
+				<!-- <li>
 					当前位置 {{uid}} [代理] 首页
-				</li>
-				<li>
-					<div class="block">
-					    <span class="demonstration">开始时间</span>
-					    
+				</li> -->
+				<!-- <mt-cell title="选择开始时间" is-link>
+				  <span style="color: green">这里是元素</span>
+				</mt-cell> -->
+				<li title="选择开始时间" is-link>
+					<span class="demonstration">选择开始时间</span>
+					<div class="block">					    
 					    <el-date-picker
 					      v-model="date1"
 					      format="MM-dd-yyyy"
@@ -26,11 +38,10 @@
 					      >
 					    </el-date-picker>
 					</div>
-					  
-				</li>
-				<li>
+			  	</li>
+			  	<li title="选择结束时间" is-link>
+			  		<span class="demonstration">选择结束时间</span>
 					<div class="block">
-					    <span class="demonstration">结束时间</span>
 					    <el-date-picker
 					      v-model="date2"
 					      format="MM-dd-yyyy"
@@ -40,12 +51,14 @@
 					      >
 					    </el-date-picker>
 					</div>
-					  
 				</li>
-				<li>{{uid}}总充值金额： {{balance}} 元</li>
-				<li>直接发展的玩家充值
+				<li>
+					{{uid}}总充值金额： {{balance}} 元
+				</li>
+				<li>
+				直接发展的玩家充值
+				{{subPlayer}} 元
 				 	<span @click='lookDetail("zjsshow")'>展开</span>
-				 	{{subPlayer}} 元
 				 </li>
 				<div class="details" v-if='zjsshow'>
 				 	<el-row :gutter="0" type='flex' class="heard_title"  justify='space-between' align='middle'>
@@ -169,8 +182,8 @@
 						</el-row>
 					</div>
 				</div>
-				<router-link to="/changepswd" tag="li">修改密码</router-link>
-				<li>退出</li>
+				<!-- <router-link to="/changepswd" tag="li">修改密码</router-link>
+				<li>退出</li> -->
 			</ul>
 		</div>
 	</div>
@@ -178,12 +191,13 @@
 
 <script>
 import util from '../../common/util'
+import { Field,Header,Button,Popup,Cell} from 'mint-ui';
 let userdata={};
 
 export default {
   data () {
     return {
-		uid:userdata.uid,
+		uid:userdata.account,
 		balance:userdata.balance,
 		role:userdata.role,
 		subDealer:userdata.subDealer,
@@ -201,6 +215,13 @@ export default {
 		date1:'',
 		date2:''
     }
+  },
+   components:{
+  	'mt-field':Field,
+  	'mt-header':Header,
+  	'mt-popup':Popup,
+  	'mt-cell':Cell,
+  	'mt-button':Button
   },
    beforeCreate:function(){
   	 userdata=JSON.parse(sessionStorage.getItem('userdata'))
@@ -294,10 +315,65 @@ export default {
 .paylook_cont{
 	height: 100%;
 	width: 100%;
-	padding-left: 8px;
-	background: rgb(247, 247, 247);
+	background: #efeff4;
+}
+.paylook_cont .hearder_2{
+	padding-top: .95rem ;
+}
+.paylook_cont .hearder_2 div{
+	display: block;
+	border: 1px solid #6d6d72;
+    overflow: hidden;
+    border-radius: 4px;
+    padding: 5px;
+    background: white;
+    color: #6d6d72;
+    animation:Roate 1s 1;
+    width: fit-content;
+}
+@keyframes Roate
+{
+	from {transform:rotateX(0deg);}
+	to {transform:rotateX(360deg);}
+}
+
+.paylook_cont .cent_action{
+    background: #fff;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /*margin: .75rem 0;*/
+    font-size: 0.85rem;
+    position: relative;
+}
+.paylook_cont .cent_action ul{
+	padding: 10px 0;
 }
 .paylook_cont .cent_action ul li{
+    box-sizing: border-box;
+    padding-left: 0.75rem;
+    min-height: 2.2rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 90%;
+    color: #6d6d72;
+	margin-top: 8px;
+	line-height: 2;
+	box-sizing: border-box;
+	list-style-type: none;
+}
+/*.paylook_cont .cent_action ul li{
 	display: block;
 	width: 90%;
 	background: #20A0FF;
@@ -310,8 +386,8 @@ export default {
 }
 .paylook_cont .cent_action{
 	width: 100%;
-	padding: 10px;
-}
+	padding: 8px 12px;
+}*/
 div.details{
 	width: 90%;
     margin-top: 8px;

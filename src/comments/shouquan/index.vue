@@ -1,58 +1,69 @@
 <template>
-	<div class="shouquan_cont">
-		<div class="hearder_1">
-			<h3>	
-				<span>【首页】</span> 
-				<span>{{uid}}欢迎你</span>
-			</h3>
-			
-		</div>
-		<div class="hearder_2">
-			代理 我充值:
-			<span>{{balance}}</span>元
-		</div>
-		<div class="cent_action">
-			<div>
-				<el-row :gutter="2" type='flex' class="heard_title"  justify='start' align='middle'>
-					<el-col :span="22"  justify='start' align='middle'>
-						<div class="grid-content bg-purple">当前位置: {{uid}} [直接玩家列表] 首页</div>
-					</el-col>
-				</el-row>
-				<el-row :gutter="2" type='flex' class="heard_title"  justify='start' align='middle'>
-					<el-col :span="8"  justify='start' align='middle'>
-						<div class="grid-content bg-purple">我现在正式授权</div>
-					</el-col>
-				</el-row>
-				<el-row :gutter="2" type='flex' justify='start' align='middle'>
-				  <el-col :span="8" justify='start'>
-					<div class="grid-content bg-purple">ID号码</div>
-				  </el-col> 
-				  <el-col :span="12">
-				  	<el-input type="text"  placeholder="请输入ID" v-model="idinput" auto-complete="off"></el-input>
-				  </el-col>
-				</el-row>
-
-				<el-row :gutter="2" type='flex' class="heard_title"  justify='start' align='middle'>
-					<el-col :span="8"  justify='start' align='middle'>
-						<div class="grid-content bg-purple">为我的代理商</div>
-					</el-col>
-				</el-row>					
+	<div id="shouquan_wrap">
+		<mt-header title="【授权下级代理】 " class="bar-nav changePwd_bar_nav">
+			<router-link  :to="{ path: '/center'}" replace slot="left" >
+			    <mt-button icon="back">返回</mt-button>
+			</router-link>
+		  <!-- <mt-button slot="right" size="small"  @click="authDelete"> 
+				退出
+		  </mt-button> -->
+		</mt-header>
+		<div class="shouquan_cont">
+			<div class="hearder_1">
+				<div>
+						<span>{{uid}}欢迎你</span>
+				</div>	
 			</div>
+			<!-- <div class="hearder_2">
+				<div>
+					代理 我充值:
+					<span>{{balance}}</span>元
+				</div>
+			</div> -->
+			<div class="cent_action">
+				<div>
+					<el-row :gutter="2" type='flex' class="heard_title"  justify='start' align='middle'>
+						<el-col :span="22"  justify='start' align='middle'>
+							<div class="grid-content bg-purple">当前您所在位置: 授权下级代理 </div>
+						</el-col>
+					</el-row>
+					<el-row :gutter="2" type='flex' class="heard_title"  justify='start' align='middle'>
+						<el-col :span="8"  justify='start' align='middle'>
+							<div class="grid-content bg-purple">我现在正式授权</div>
+						</el-col>
+					</el-row>
+					<el-row :gutter="2" type='flex' justify='start' align='middle'>
+					  <el-col :span="8" justify='start'>
+						<div class="grid-content bg-purple">ID号码</div>
+					  </el-col> 
+					  <el-col :span="12">
+					  	<el-input type="text"  placeholder="请输入ID" v-model="idinput" auto-complete="off"></el-input>
+					  </el-col>
+					</el-row>
+
+					<el-row :gutter="2" type='flex' class="heard_title"  justify='start' align='middle'>
+						<el-col :span="8"  justify='start' align='middle'>
+							<div class="grid-content bg-purple">为我的代理商</div>
+						</el-col>
+					</el-row>					
+				</div>
+			</div>
+			<el-row :gutter="2" type='flex' class='sub_btn' justify='center' align='middle'>
+				<el-col :span="8">
+					<el-button type="primary" @click="submitID">确定</el-button>
+				</el-col>
+			</el-row>
 		</div>
-		<el-row :gutter="2" type='flex' class='sub_btn' justify='center' align='middle'>
-			<el-col :span="8">
-				<el-button type="primary" @click="submitID">确定</el-button>
-			</el-col>
-		</el-row>
-	</div>
+	</div>	
 </template>
 
 <script>
+import { Field ,Header,Button,MessageBox,Toast } from 'mint-ui';
 let userdata={};
 export default {
   data () {
     return {
-		uid:userdata.uid,
+		uid:userdata.account,
 		balance:userdata.balance,
 		role:userdata.role,
 		subDealer:userdata.subDealer,
@@ -62,6 +73,11 @@ export default {
 		idinput:''
     }
   },
+  components:{
+  	'mt-field':Field,
+  	'mt-header':Header,
+  	'mt-button':Button
+  },
   beforeCreate:function(){
   	 userdata=JSON.parse(sessionStorage.getItem('userdata'))
   },
@@ -70,26 +86,27 @@ export default {
 	  	const that=this;
 	  	console.log(that.idinput)
 	  	if(that.idinput!=''){
-	  		this.axios.get(this.$api.createDealer, {
-			    params: {
-			      account:userdata.account,
-			      password:userdata.password,
-			      comment:that.idinput
-			    }
+	  		MessageBox.confirm('确定执行此操作?').then(action => {
+			  	this.axios.get(this.$api.createDealer, {
+			    	params: {
+				      account:userdata.account,
+				      password:userdata.password,
+				      comment:that.idinput
+				    }
+				})
+				.then(function (res) {
+				    if(res.data.code==1){
+				    	MessageBox('温馨提示', res.data.msg);
+				    }else{
+				    	MessageBox('温馨提示', res.data.msg);
+				    }
+				  })
+				.catch(function (response) {
+				    console.log(response);
+				});
 			})
-			.then(function (res) {
-			    if(res.data.code==1){
-		    		
-			    }else{
-			    	alert(res.data.msg)
-			    }
-			  })
-			.catch(function (response) {
-			    console.log(response);
-			});
-
 	  	}else{
-	  		alert('ID不能为空')
+	  		MessageBox('温馨提示', 'ID不能为空');
 	  	}
   	}
   }
@@ -97,20 +114,71 @@ export default {
 </script>
 
 <style type="text/css">
-.shouquan_cont{
+#shouquan_wrap{
 	height: 100%;
 	width: 100%;
-	padding-left: 8px;
-	background: rgb(247, 247, 247);
+    background: #efeff4;
+	overflow: hidden;
 }
-.shouquan_cont .hearder_1,.shouquan_cont .hearder_2{
-	padding: 4px 10px;
+.shouquan_cont{
+	margin-top: 40px;
+	/*padding-left: 8px;*/
+    background: #efeff4;
+}
+.shouquan_cont .hearder_1{
+	padding-top: 12px;
+	padding-bottom: 10px;
+}
+.shouquan_cont .hearder_2{
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.shouquan_cont .hearder_1 div{
+	display: block;
+	border: 1px solid #6d6d72;
+    overflow: hidden;
+    border-radius: 4px;
+    padding: 5px;
+    background: white;
+    color: #6d6d72;
+    animation:Roate_1 1s 1;
+    width: fit-content;
+}
+@keyframes Roate_1
+{
+	from {
+		transform:translateY(-100%);
+	}
+	to {
+		transform:translateY(0);
+	}
+}
+
+.shouquan_cont .hearder_2 div{
+	display: block;
+	border: 1px solid #6d6d72;
+    overflow: hidden;
+    border-radius: 4px;
+    padding: 5px;
+    background: white;
+    color: #6d6d72;
+    animation:Roate 1s 1;
+    width: fit-content;
+}
+@keyframes Roate
+{
+	from {transform:rotateX(0deg);}
+	to {transform:rotateX(360deg);}
 }
 .shouquan_cont .center_action{
 	height: 100%;
 	width: 100%;
 	padding-left: 8px;
 	background: rgb(247, 247, 247);
+}
+.shouquan_cont .cent_action div{
+	text-align: left;
 }
 .shouquan_cont .cent_action ul li{
 	display: block;
@@ -126,5 +194,6 @@ export default {
 .shouquan_cont .cent_action{
 	width: 100%;
 	padding: 10px;
+	background: #fff;
 }
 </style>

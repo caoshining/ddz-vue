@@ -1,6 +1,6 @@
 <template>
 	<div class="players_cont">
-		<mt-header title="【玩家充值】" class="bar-nav">
+		<mt-header title="【代理充值】" class="bar-nav">
 			<router-link :to="{ path: '/center'}" replace slot="left" >
 			    <mt-button icon="back">返回</mt-button>
 			</router-link>
@@ -31,21 +31,15 @@
 			<div>
 				<ul>
 					<li>
-						<el-form ref="form" label-width="70px" :model="actionParams" :rules="checkRules" @submit.prevent="onSubmit" style="width:100%;">
-							<el-form-item label="玩家Id" prop="userId">
-								<el-input v-model="inputUserId" type="small"></el-input>
+						<el-form ref="form" label-width="70px" :model="addCashForm"  @submit.prevent="onSubmit" style="width:100%;">
+							<el-form-item label="账号" prop="userId">
+								<el-input v-model="addCashForm.account" type="small"></el-input>
 							</el-form-item>
-						    <el-form-item label="物品">
-						      <el-radio-group v-model="actionParams.itemId">
-						        <el-radio :label="10001" checked>房卡</el-radio>
-						        <el-radio :label="10002" disabled >金币</el-radio>
-						      </el-radio-group>
-						    </el-form-item>
-							<el-form-item label="数量" >
-								<el-input-number v-model="actionParams.number" :min="1"></el-input-number>
+							<el-form-item label="金额" >
+								<el-input-number v-model="addCashForm.cash" :min="1"></el-input-number>
 							</el-form-item>
 							<el-form-item label="备注">
-								<el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model.trim="actionParams.desc"></el-input>
+								<el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model.trim="addCashForm.desc"></el-input>
 							</el-form-item>
 							<el-form-item justify="center">
 					      		<el-button type="primary" style="margin-left: 20%;width:120px;" @click.native.prevent="onSubmit" >确认</el-button>
@@ -75,6 +69,8 @@
 
 <script>
 import { Field,Header,Button,Popup,MessageBox,Toast} from 'mint-ui';
+import {  addCash } from '../../config/api';
+
 export default {
   data () {
     return {
@@ -94,12 +90,17 @@ export default {
       	number: 0,
       	desc:''
       },
+      addCashForm: {
+			account: '',
+			cash: '',
+			desc:''
+		},
       checkRules:{
             userId:[
-                {required:true, message:"请输入玩家id", trigger:'blur'}, 
+                {required:true, message:"账号", trigger:'blur'}, 
                 {validator:(rule,value,callback)=>{
-                  if(/^\d+$/.test(value) == false){
-                      callback(new Error("玩家只能输入数字"));
+                  if(value!=''){
+                      callback(new Error("账号不能为空"));
                   }else{
                       callback();
                   }
@@ -139,25 +140,29 @@ export default {
     onSubmit () {
     	const that=this;	
     	console.log(that.$api.addItem)
-		if(that.actionParams.userId!=''){
-
-	  		this.axios.get(this.$api.addItem,{
-			    params:that.actionParams
-			  })
-			  .then(function (res) {
-			    if(res.data.code==1){
-			    	MessageBox('温馨提示', '充值成功');
-		  			that.$router.push({path:"/center"})
-			    }else{
-			    	MessageBox('温馨提示', res.data.msg);
-			    	// alert(res.data.msg)
-			    }
-			  })
-			  .catch(function (response) {
-			    console.log(response);
-			  });
+		if(that.addCashForm.account!=''){
+			MessageBox.confirm('确定执为'+that.addCashForm.account+'用户充值 $ '+that.addCashForm.cash+'吗?').then(action => {
+				let para = {
+						account: that.addCashForm.account,
+						cash: that.addCashForm.cash,
+						desc: that.addCashForm.desc
+					};
+				  addCash(para).then(function (res) {
+				    if(res.data.code==1){
+				    	MessageBox('温馨提示', '充值成功');
+			  			that.$router.push({path:"/center"})
+				    }else{
+				    	MessageBox('温馨提示', res.data.msg);
+				    	// alert(res.data.msg)
+				    }
+				  })
+				  .catch(function (response) {
+				    console.log(response);
+				  });
+			});
+	  		
 		}else{
-			MessageBox('温馨提示', '请输入玩家id');
+			MessageBox('温馨提示', '请输入账号');
 		}
     },
     handleChange (value) {
