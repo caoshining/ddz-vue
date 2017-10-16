@@ -27,21 +27,19 @@
 						<li>
 							代理充值：<span style="color: Red;font-weight: bold; ">{{balance}}</span>元
 						</li>
-						<!-- <li>
-							下级代理：{{subDealer}}
-						</li>	 -->
+
 					</ul>
 				</div>
 				<div class="cent_action">
 					<ul>
 						<router-link class="router_li" to="/playerPay" tag="li">玩家充值 <i class="el-icon-arrow-right"></i></router-link>
 						<router-link class="router_li" to="/dealerMange" tag="li">代理充值 <i class="el-icon-arrow-right"></i></router-link>
-						<router-link to="/paylook" tag="li">玩家充值查询  <i class="el-icon-arrow-right"></i></router-link>
 						<router-link to="/allwj" tag="li">直接玩家 <!-- {{subPlayer}} 人 --> <i class="el-icon-arrow-right"></i></router-link>
 						<router-link to="/daili" tag="li">下级代理 <!-- {{subDealer}} 人 --> <i class="el-icon-arrow-right"></i></router-link>
-						<li>代理充值统计 {{dailyCashCount}} 元 <i class="el-icon-arrow-right"></i></li>
+            <router-link to="/paylook" tag="li">玩家充值查询  <i class="el-icon-arrow-right"></i></router-link>
+						<li>代理充值查询 <i class="el-icon-arrow-right"></i></li>
 						<router-link to="/shouquan" tag="li">授权下级代理 <i class="el-icon-arrow-right"></i></router-link>
-						<li>公告查看(待定) <i class="el-icon-arrow-right"></i></li>
+						<li>游戏设置 <i class="el-icon-arrow-right"></i></li>
 						<router-link to="/changepswd" tag="li">修改密码 <i class="el-icon-arrow-right"></i></router-link>
 					</ul>
 				</div>

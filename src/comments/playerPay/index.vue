@@ -32,13 +32,15 @@
 				<ul>
 					<li>
 						<el-form ref="form" label-width="70px" :model="actionParams" :rules="checkRules" @submit.prevent="onSubmit" style="width:100%;">
-							<el-form-item label="玩家Id" prop="userId">
+							<el-form-item label="玩家ID" prop="userId">
 								<el-input v-model="inputUserId" type="small"></el-input>
 							</el-form-item>
 						    <el-form-item label="物品">
 						      <el-radio-group v-model="actionParams.itemId">
 						        <el-radio :label="10001" checked>房卡</el-radio>
-						        <el-radio :label="10002" disabled >金币</el-radio>
+						        <!-- <el-radio :label="10002" disabled >金币</el-radio> -->
+						        <el-radio :label="10002" >金币</el-radio>
+
 						      </el-radio-group>
 						    </el-form-item>
 							<el-form-item label="数量" >

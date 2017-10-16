@@ -35,7 +35,7 @@
 							<el-form-item label="账号" prop="userId">
 								<el-input v-model="addCashForm.account" type="small"></el-input>
 							</el-form-item>
-							<el-form-item label="金额" >
+							<el-form-item label="房卡" >
 								<el-input-number v-model="addCashForm.cash" :min="1"></el-input-number>
 							</el-form-item>
 							<el-form-item label="备注">
