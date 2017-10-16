@@ -46,9 +46,9 @@
 					</ul>
 				</div>
 			  </mt-tab-container-item>
-			  <mt-tab-container-item id="tab-container2">
+			  <!-- <mt-tab-container-item id="tab-container2">
 
-			  </mt-tab-container-item>
+			  </mt-tab-container-item> -->
 			</mt-tab-container>
 		</div>
 	</div>	

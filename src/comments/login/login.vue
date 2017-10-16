@@ -117,6 +117,7 @@ export default {
 				  position: 'center',
 				  duration: 1000
 				});
+				that.password=''
 		    }
 		  })
 		  .catch(function (response) {
