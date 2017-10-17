@@ -38,7 +38,8 @@
 						<router-link to="/daili" tag="li">下级代理 <!-- {{subDealer}} 人 --> <i class="el-icon-arrow-right"></i></router-link>
             <router-link to="/paylook" tag="li">玩家充值查询  <i class="el-icon-arrow-right"></i></router-link>
 						<li>代理充值查询 <i class="el-icon-arrow-right"></i></li>
-						<router-link to="/shouquan" tag="li">授权下级代理 <i class="el-icon-arrow-right"></i></router-link>
+            <router-link to="/shouquan" tag="li">授权下级代理 <i class="el-icon-arrow-right"></i></router-link>
+						<router-link to="/createDealer" tag="li">新增代理 <i class="el-icon-arrow-right"></i></router-link>
 						<li>游戏设置 <i class="el-icon-arrow-right"></i></li>
 						<router-link to="/changepswd" tag="li">修改密码 <i class="el-icon-arrow-right"></i></router-link>
 					</ul>

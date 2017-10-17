@@ -12,6 +12,7 @@ import shouquan from './comments/shouquan/index.vue'
 import changepswd from './comments/changepswd/index.vue'
 import playerpay from './comments/playerPay/index.vue'
 import dealerMange from './comments/dealerMange/dealerMange.vue'
+import createdealer from './comments/createDealer/createDealer.vue'
 import VueRouter from 'vue-router'
 // import VueResourec from 'vue-resource';
 import {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd,addItem} from './config/api.js'
@@ -41,6 +42,7 @@ const router =new VueRouter({
       {path: '/changepswd', component: changepswd},
     	{path: '/playerpay', component: playerpay},
       {path: '/paylook', component: paylook},
+      {path: '/createDealer', component: createdealer},
     	{path: '/dealerMange', component: dealerMange}
 
 	]

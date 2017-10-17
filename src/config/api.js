@@ -12,7 +12,7 @@ export const getSubDealer=http+'/dealer/getSubDealer'
 //下属玩家
 export const getSubPlayer=http+'/dealer/getSubPlayer'
 //创建代理
-export const createDealer=http+'/createDealer'
+// export const createDealer=http+'/createDealer'
 //禁用代理
 export const disableDealer=http+'/disableDealer'
 //修改密码
@@ -25,3 +25,5 @@ export const getPlayerList = params => { return axios.get(`${base}/player/getPla
 export const getDealerListPage = params => { return axios.get(`${base}/dealer/getDealerListPage`, { params: params }).then(res => res.data); };
 //代理充值
 export const addCash = params => { return axios.get(`${base}/dealer/addCash`, { params: params }).then(res => res.data); };
+//新增代理
+export const createDealer = params => { return axios.get(`${base}/dealer/createDealer`, { params: params }).then(res => res.data); };
