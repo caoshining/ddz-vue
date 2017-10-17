@@ -18,12 +18,12 @@ import {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableD
 import { Swipe, SwipeItem, Indicator, Button, Cell, Checklist } from 'mint-ui';
 
 import axios from 'axios'
-// import VueAxios from 'vue-axios'
+import VueAxios from 'vue-axios'
 
 
 Vue.use(ElementUI)
 Vue.use(VueRouter);
-// Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios)
 
 Vue.prototype.$api = {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd,addItem}
 axios.defaults.withCredentials = true;
