@@ -10,16 +10,16 @@
 		</mt-header>
 		<div class="cent_action">
 			<div>
-				<mt-field label="账号" placeholder="请输入用户名" v-model="username"></mt-field>
-				<mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
-				<mt-field label="手机号" placeholder="请输入手机号" :attr="{ maxlength: 11 }" type="tel" v-model="phone"></mt-field>
+				<mt-field label="账号" placeholder="请输入用户名" v-model="account"></mt-field>
+				<mt-field label="密码" placeholder="请输入密码" type="password" v-model="pwd"></mt-field>
+				<mt-field label="手机号" placeholder="请输入手机号" :attr="{ maxlength: 11 }" type="number" v-model="tel"></mt-field>
 				<mt-radio
 				class="check_radius"
 				  title="级别"
-				  v-model="jibie"
+				  v-model="role"
 				  :options="['一级代理', '二级代理']">
 				</mt-radio>
-				<mt-field label="备注" placeholder="" type="textarea" rows="2" v-model="introduction"></mt-field>
+				<mt-field label="备注" placeholder="" type="textarea" rows="2" v-model="comment"></mt-field>
 				<li class="btn_cent">
 					<mt-button type="default" size="small" @click.native="cancle">取消</mt-button>
 					<mt-button type="primary" size="small" @click.native="onSubmit">提交</mt-button>
@@ -36,11 +36,12 @@ import {  createDealer } from '../../config/api';
 export default {
   data () {
     return {
-	  username:'',
-	  password:'',
-	  phone:'',
-	  jibie:'',
-	  introduction:''
+	  account:'', 
+	  pwd: '', 
+	  tel:'',
+	  comment:'', 
+	  role:''
+	  // parentDealer:_this.addDealerForm.parentDealer,
     }
   },
    components:{
@@ -69,17 +70,22 @@ export default {
     },
     onSubmit () {
     	const that=this;	
-		if(that.addCashForm.account!=''){
-			MessageBox.confirm('确定执为'+that.addCashForm.account+'用户充值 $ '+that.addCashForm.cash+'吗?').then(action => {
+
+		if(that.account!=''){
+			MessageBox.confirm('确定新增'+that.account+'为代理').then(action => {
 				let para = {
-						account: that.addCashForm.account,
-						cash: that.addCashForm.cash,
-						desc: that.addCashForm.desc
+					  account:that.account, 
+					  pwd: that.pwd, 
+					  tel:that.tel,
+					  comment:that.comment, 
+					  role:that.role
 					};
 				  createDealer(para).then(function (res) {
+				  	console.log(res)
 				    if(res.data.code==1){
-				    	MessageBox('温馨提示', '充值成功');
-			  			that.$router.push({path:"/center"})
+				    	// 	MessageBox('温馨提示', '充值成功');
+			  			// that.$router.push({path:"/center"})
+			  			
 				    }else{
 				    	MessageBox('温馨提示', res.data.msg);
 				    	// alert(res.data.msg)

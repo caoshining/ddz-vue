@@ -24,7 +24,7 @@ import VueAxios from 'vue-axios'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter);
-Vue.use(VueAxios, axios)
+Vue.use(axios,VueAxios)
 
 Vue.prototype.$api = {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd,addItem}
 axios.defaults.withCredentials = true;
