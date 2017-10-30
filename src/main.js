@@ -19,14 +19,15 @@ import {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableD
 import { Swipe, SwipeItem, Indicator, Button, Cell, Checklist } from 'mint-ui';
 
 import axios from 'axios'
-import VueAxios from 'vue-axios'
+// import VueAxios from 'vue-axios'
 
 
 Vue.use(ElementUI)
 Vue.use(VueRouter);
-Vue.use(axios,VueAxios)
+// Vue.use(VueAxios,axios);
 
 Vue.prototype.$api = {authDelete,auth,paylooks,getSubDealer,getSubPlayer,createDealer,disableDealer,changePwd,addItem}
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = true;
 
 let Apps = Vue.extend(App);
@@ -49,11 +50,15 @@ const router =new VueRouter({
 })
 axios.interceptors.request.use(
     config => {
-        if (config.url.indexOf('phz-admin/auth')==-1) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+        try{
+          if (config.url.indexOf('phz-admin/auth')==-1) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
         //  if(sessionStorage.user){
             //不为登录接口时接口请求带上token
             config.headers.token =JSON.parse(sessionStorage.user).token||'';
             config.params.token=JSON.parse(sessionStorage.user).token||''; // bug，因为服务端取不到header，临时方案
+        }
+        }catch(e){  
+          console.log(e)
         }
         return config;
     },

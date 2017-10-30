@@ -77,6 +77,7 @@
 
 <script>
 import { Field,Header,Button,Popup,MessageBox,Toast} from 'mint-ui';
+import {addItem} from '../../config/api'
 export default {
   data () {
     return {
@@ -140,13 +141,8 @@ export default {
     },
     onSubmit () {
     	const that=this;	
-    	console.log(that.$api.addItem)
 		if(that.actionParams.userId!=''){
-
-	  		this.axios.get(this.$api.addItem,{
-			    params:that.actionParams
-			  })
-			  .then(function (res) {
+			addItem(that.actionParams).then(function (res) {
 			    if(res.data.code==1){
 			    	MessageBox('温馨提示', '充值成功');
 		  			that.$router.push({path:"/center"})
@@ -158,6 +154,21 @@ export default {
 			  .catch(function (response) {
 			    console.log(response);
 			  });
+	  		// this.axios.get(this.$api.addItem,{
+			  //   params:that.actionParams
+			  // })
+			  // .then(function (res) {
+			  //   if(res.data.code==1){
+			  //   	MessageBox('温馨提示', '充值成功');
+		  	// 		that.$router.push({path:"/center"})
+			  //   }else{
+			  //   	MessageBox('温馨提示', res.data.msg);
+			  //   	// alert(res.data.msg)
+			  //   }
+			  // })
+			  // .catch(function (response) {
+			  //   console.log(response);
+			  // });
 		}else{
 			MessageBox('温馨提示', '请输入玩家id');
 		}

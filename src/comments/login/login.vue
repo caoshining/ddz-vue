@@ -46,6 +46,7 @@
 
 <script>
 import { Field ,Header,Button,Toast } from 'mint-ui';
+import {requestLogin} from '../../config/api'
 export default {
   data () {
     return {
@@ -65,64 +66,53 @@ export default {
   	},
   	submitAccount () {
   		const that=this;
-  		console.log(that)
-  		// router.push('center')
-  		// this.$http.get(this.$api.auth,{username:that.input,password:that.password}).then((res) => {
-  		// 	res=res.body;
-  		
-  		// 	this.$router.push({path:"/center"})
-  		// 	//跳转到功能中心
-  		// 	this.$router.push({path:"/center"})
-  		// 	if(res.code==0){
-
-  		// 	}
-  		// });
-  		this.axios.get(this.$api.auth, {
-		    params: {
+  		console.log(requestLogin)
+  		requestLogin({
 		      username:that.input,
 		      password:that.password
-		    }
-		  })
-		  .then(function (res) {
-  		
-		    if(res.data.code==1){
-		    	Toast({
-				  message: '登录成功',
-				  position: 'center',
-				  duration: 1000
-				});
-	    		that.$router.push({path:"/center",params:{
-	  				uid:res.data.data.uid,
-	  				balance:res.data.data.balance,
-	  				role:res.data.data.role,
-	  				subDealer:res.data.data.subDealer,
-	  				dailyCashCount:res.data.data.dailyCashCount,
-    				subPlayer:res.data.data.subPlayer,
-	  				account:res.data.data.account
-	  			}})
-	  			const userdata={
-	  				uid:res.data.data.uid,
-	  				balance:res.data.data.balance,
-	  				role:res.data.data.role,
-	  				subDealer:res.data.data.subDealer,
-	  				dailyCashCount:res.data.data.dailyCashCount,
-    				subPlayer:res.data.data.subPlayer,
-    				password:that.password,
-	  				account:res.data.data.account
-	  			}
-	    		sessionStorage.setItem('userdata',JSON.stringify(userdata))
-		    }else{
-		    	Toast({
-				  message: res.data.msg,
-				  position: 'center',
-				  duration: 1000
-				});
-				that.password=''
-		    }
-		  })
-		  .catch(function (response) {
-		    console.log(response);
-		  });
+		    }).then(res => {
+		    	console.log(res)
+              if(res.code==1){
+			    	Toast({
+					  message: '登录成功',
+					  position: 'center',
+					  duration: 1000
+					});
+		    		that.$router.push({path:"/center",params:{
+		  				uid:res.data.uid,
+		  				balance:res.balance,
+		  				role:res.data.role,
+		  				subDealer:res.data.subDealer,
+		  				dailyCashCount:res.data.dailyCashCount,
+	    				subPlayer:res.data.subPlayer,
+		  				account:res.data.account
+		  			}})
+		  			const userdata={
+		  				uid:res.data.uid,
+		  				balance:res.data.balance,
+		  				role:res.data.role,
+		  				subDealer:res.data.subDealer,
+		  				dailyCashCount:res.data.dailyCashCount,
+	    				subPlayer:res.data.subPlayer,
+	    				token:res.data.token,
+	    				password:that.password,
+		  				account:res.data.account
+		  			}
+                	sessionStorage.setItem('user', JSON.stringify(userdata));
+		    		sessionStorage.setItem('userdata',JSON.stringify(userdata))
+			    }else{
+			    	Toast({
+					  message: res.msg,
+					  position: 'center',
+					  duration: 1000
+					});
+					that.password=''
+			    }
+            }).catch(response=> {
+               console.log(response); 
+            });
+
+  
   	}  
   }
 }
