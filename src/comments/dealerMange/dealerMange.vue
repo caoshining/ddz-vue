@@ -141,19 +141,20 @@ export default {
     	const that=this;	
     	console.log(that.$api.addItem)
 		if(that.addCashForm.account!=''){
-			MessageBox.confirm('确定执为'+that.addCashForm.account+'用户充值 $ '+that.addCashForm.cash+'吗?').then(action => {
+			MessageBox.confirm('确定执为'+that.addCashForm.account+'用户充值 ￥'+that.addCashForm.cash+'吗?').then(action => {
 				let para = {
 						account: that.addCashForm.account,
 						cash: that.addCashForm.cash,
 						desc: that.addCashForm.desc
 					};
 				  addCash(para).then(function (res) {
-				    if(res.data.code==1){
+				  	console.log(res)
+				    if(res.code==1){
 				    	MessageBox('温馨提示', '充值成功');
 			  			that.$router.push({path:"/center"})
 				    }else{
-				    	MessageBox('温馨提示', res.data.msg);
-				    	// alert(res.data.msg)
+				    	MessageBox('温馨提示', res.msg);
+				    	alert(res.data.msg)
 				    }
 				  })
 				  .catch(function (response) {

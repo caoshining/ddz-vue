@@ -59,6 +59,7 @@
 
 <script>
 import { Field ,Header,Button,MessageBox,Toast } from 'mint-ui';
+import {createDealer} from '../../config/api'
 let userdata={};
 export default {
   data () {
@@ -87,14 +88,21 @@ export default {
 	  	console.log(that.idinput)
 	  	if(that.idinput!=''){
 	  		MessageBox.confirm('确定执行此操作?').then(action => {
-			  	this.axios.get(this.$api.createDealer, {
-			    	params: {
-				      account:userdata.account,
-				      password:userdata.password,
-				      comment:that.idinput
-				    }
-				})
-				.then(function (res) {
+	  			// 等待增添新View
+	  			let para = {
+					account: _this.addDealerForm.account, 
+					pwd: _this.addDealerForm.pwd, 
+					comment: _this.addDealerForm.comment, 
+					role:_this.addDealerForm.dealerType,
+					tel:_this.addDealerForm.tel,
+					parentDealer:_this.addDealerForm.parentDealer,
+				};
+	  			createDealer({
+			      account:userdata.account,
+			      password:userdata.password,
+			      comment:that.idinput
+			    })
+	  			.then(function (res) {
 				    if(res.data.code==1){
 				    	MessageBox('温馨提示', res.data.msg);
 				    }else{
@@ -104,6 +112,23 @@ export default {
 				.catch(function (response) {
 				    console.log(response);
 				});
+			 //  	this.axios.get(this.$api.createDealer, {
+			 //    	params: {
+				//       account:userdata.account,
+				//       password:userdata.password,
+				//       comment:that.idinput
+				//     }
+				// })
+				// .then(function (res) {
+				//     if(res.data.code==1){
+				//     	MessageBox('温馨提示', res.data.msg);
+				//     }else{
+				//     	MessageBox('温馨提示', res.data.msg);
+				//     }
+				//   })
+				// .catch(function (response) {
+				//     console.log(response);
+				// });
 			})
 	  	}else{
 	  		MessageBox('温馨提示', 'ID不能为空');
